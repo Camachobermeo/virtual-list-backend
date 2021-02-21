@@ -12,7 +12,7 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-  $query = "SELECT * FROM totem WHERE codigo_tienda = '$params->tienda';";
+  $query = "SELECT * FROM tienda WHERE rut = '$params->empresa';";
   $sentencia = $base_de_datos->query($query);
   $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
