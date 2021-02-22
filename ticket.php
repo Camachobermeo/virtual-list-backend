@@ -56,7 +56,7 @@ try {
 
   $response->correo = $to;
 
-  mail($to, $subject, $message);
+  mail('joelbermeo452@gmail.com', $subject, $message);
 
   header('Content-Type: application/json');
   echo json_encode($response);
