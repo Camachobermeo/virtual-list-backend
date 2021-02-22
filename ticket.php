@@ -8,6 +8,13 @@ $json = file_get_contents('php://input');
 
 $params = json_decode($json);
 
+$PNG_TEMP_DIR = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR;
+
+//html PNG location prefix
+$PNG_WEB_DIR = 'temp/';
+
+include "utiles/phpqrcode.php";
+
 class Result
 {
 }
@@ -15,6 +22,17 @@ class Result
 try {
 
   include_once "utiles/base_de_datos.php";
+
+  if (!file_exists($PNG_TEMP_DIR))
+    mkdir($PNG_TEMP_DIR);
+
+  $filename = $PNG_TEMP_DIR . 'test.png';
+
+  // user data
+  $filename = $PNG_TEMP_DIR . 'test' . md5('MARIO' . '|H|10') . '.png';
+  QRcode::png('MARIO', $filename, 'H', '10', 2);
+
+  // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
 
   $fecha = date("Y-m-d H:i:s");
   $recordar = $params->recordatorio == false ? 0 : 1;
