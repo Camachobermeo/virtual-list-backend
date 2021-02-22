@@ -30,7 +30,7 @@ try {
 
   // user data
   $filename = $PNG_TEMP_DIR . 'test' . md5('MARIO' . '|H|10') . '.png';
-  QRcode::png('MARIO', $filename, 'H', '10', 2);
+  // QRcode::png('MARIO', $filename, 'H', '10', 2);
 
   // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
 
