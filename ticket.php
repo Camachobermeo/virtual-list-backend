@@ -54,6 +54,8 @@ try {
   $subject = "Ticket Generado";
   $message = "Presentar el siguiente ticket al ingresar.";
 
+  $response->correo = $to;
+
   mail($to, $subject, $message);
 
   header('Content-Type: application/json');
