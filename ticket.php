@@ -48,6 +48,7 @@ try {
 
   $sentencia = $base_de_datos->prepare("INSERT INTO ticket(codigo_tipo_operacion, email, telefono, recordatorio, fecha_sacado) VALUES (?, ?, ?, ?, ?);");
   // $resultado = $sentencia->execute([$params->codigo_tipo_operacion, $params->email, $params->telefono, $recordar, $fecha]);
+  $resultado = true;
 
   $response = new Result();
 
@@ -61,18 +62,18 @@ try {
   $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
   $mail->isSMTP();                                            //Send using SMTP
   $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-  $mail->SMTPAuth   = false;                                   //Enable SMTP authentication
-  $mail->Username   = 'unpdocente@gmail.com';                     //SMTP username
-  $mail->Password   = 'unpdocente2019';                               //SMTP password
-  $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-  $mail->Port       = 587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+  $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+  $mail->Username   = 'mariormaos083@gmail.com';                     //SMTP username
+  $mail->Password   = 'unp20122';                               //SMTP password
+  $mail->SMTPSecure = 'ssl';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+  $mail->Port       = 465;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
   //Recipients
   $mail->setFrom('unpdocente@gmail.com', 'unpdocente2019');
   $mail->addReplyTo('unpdocente@gmail.com', 'unpdocente2019');
-  $mail->addAddress('marioramos083@gmail.com', 'Joe User');     //Add a recipient
-  $mail->addCC('cc@example.com');
-  $mail->addBCC('bcc@example.com');
+  $mail->addAddress('joelbermeo452@gmail.com', 'Joe User');     //Add a recipient
+  // $mail->addCC('cc@example.com');
+  // $mail->addBCC('bcc@example.com');
 
   //Attachments
   // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
@@ -85,13 +86,13 @@ try {
   $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
 
-  $mail->smtpConnect([
-    'ssl' => [
-      'verify_peer' => false,
-      'verify_peer_name' => false,
-      'allow_self_signed' => true
-    ]
-  ]);
+  // $mail->smtpConnect([
+  //   'ssl' => [
+  //     'verify_peer' => false,
+  //     'verify_peer_name' => false,
+  //     'allow_self_signed' => true
+  //   ]
+  // ]);
 
   $mail->send();
 
