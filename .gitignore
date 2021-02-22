@@ -2,8 +2,8 @@
 
 # compiled output
 /dist
-/tmp
-/out-tsc
+/temp
+/vendor
 # Only exists if Bazel was run
 /bazel-out
 

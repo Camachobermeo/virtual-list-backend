@@ -47,8 +47,7 @@ try {
   $recordar = $params->recordatorio == false ? 0 : 1;
 
   $sentencia = $base_de_datos->prepare("INSERT INTO ticket(codigo_tipo_operacion, email, telefono, recordatorio, fecha_sacado) VALUES (?, ?, ?, ?, ?);");
-  // $resultado = $sentencia->execute([$params->codigo_tipo_operacion, $params->email, $params->telefono, $recordar, $fecha]);
-  $resultado = true;
+  $resultado = $sentencia->execute([$params->codigo_tipo_operacion, $params->email, $params->telefono, $recordar, $fecha]);
 
   $response = new Result();
 
@@ -58,44 +57,6 @@ try {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }
   $response->resultado = $resultado;
-
-  $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-  $mail->isSMTP();                                            //Send using SMTP
-  $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-  $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-  $mail->Username   = 'mariormaos083@gmail.com';                     //SMTP username
-  $mail->Password   = 'unp20122';                               //SMTP password
-  $mail->SMTPSecure = 'ssl';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-  $mail->Port       = 465;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-
-  //Recipients
-  $mail->setFrom('unpdocente@gmail.com', 'unpdocente2019');
-  $mail->addReplyTo('unpdocente@gmail.com', 'unpdocente2019');
-  $mail->addAddress('joelbermeo452@gmail.com', 'Joe User');     //Add a recipient
-  // $mail->addCC('cc@example.com');
-  // $mail->addBCC('bcc@example.com');
-
-  //Attachments
-  // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-  // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-
-  //Content
-  $mail->isHTML(true);                                  //Set email format to HTML
-  $mail->Subject = 'Here is the subject';
-  $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-  $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-
-  // $mail->smtpConnect([
-  //   'ssl' => [
-  //     'verify_peer' => false,
-  //     'verify_peer_name' => false,
-  //     'allow_self_signed' => true
-  //   ]
-  // ]);
-
-  $mail->send();
-
 
   // $to = $params->email;
   // $subject = "Ticket Generado";
