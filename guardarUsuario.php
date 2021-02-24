@@ -15,8 +15,13 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-  $sentencia = $base_de_datos->prepare("INSERT INTO usuario(codigo, rut, nombre, apellidos, telefono) VALUES (?, ?, ?, ?, ?);");
-  $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre), strtoupper($params->apellidos), strtoupper($params->telefono)]);
+  if ($params->esEdicion) {
+    $sentencia = $base_de_datos->prepare("UPDATE usuario 
+                                          SET (codigo, rut, nombre, apellidos, telefono) = 
+                                          ('$params->codigo', '$params->rut', '$params->nombre', '$params->apellidos', '$params->telefono') WHERE codigo = '$params->codigo'");
+  }
+  //  $sentencia = $base_de_datos->prepare("INSERT INTO usuario(codigo, rut, nombre, apellidos, telefono) VALUES (?, ?, ?, ?, ?);");
+  $resultado = $sentencia->execute();
 
   $response = new Result();
 
