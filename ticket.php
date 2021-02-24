@@ -13,17 +13,6 @@ $PNG_TEMP_DIR = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEP
 //html PNG location prefix
 $PNG_WEB_DIR = 'temp/';
 
-include "utiles/phpqrcode.php";
-require 'mail/PHPMailer.php';
-require 'mail/SMTP.php';
-require 'mail/Exception.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-$mail = new PHPMailer(true);
-
 class Result
 {
 }
@@ -31,6 +20,7 @@ class Result
 try {
 
   include_once "utiles/base_de_datos.php";
+  include_once "utiles/phpqrcode.php";
 
   if (!file_exists($PNG_TEMP_DIR))
     mkdir($PNG_TEMP_DIR);
@@ -39,7 +29,7 @@ try {
 
   // user data
   $filename = $PNG_TEMP_DIR . 'test' . md5('MARIO' . '|H|10') . '.png';
-  // QRcode::png('MARIO', $filename, 'H', '10', 2);
+  QRcode::png('MARIO', $filename, 'H', '10', 2);
 
   // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
 
@@ -58,13 +48,91 @@ try {
   }
   $response->resultado = $resultado;
 
-  // $to = $params->email;
-  // $subject = "Ticket Generado";
-  // $message = "Presentar el siguiente ticket al ingresar.";
+  $num = md5(time());
 
-  // $response->correo = $to;
+  //MAIL BODY
+  $body = "
+    <html>
+    <head>
+    <title>Monitoreo</title>
+    </head>
+    <body style='background:#EEE; padding:30px;'>
+    <h2 style='color:#767676;'>Monitoreo Grupo Bedoya</h2>";
 
-  // mail('joelbermeo452@gmail.com', $subject, $message);
+  $body .= "
+    <strong style='color:#0090C6;'>Monitor: </strong>
+    <span style='color:#767676;'>Monitor</span>";
+
+  $body .= "
+    <strong style='color:#0090C6;'>Email: </strong>
+    <span style='color:#767676;'>Email</span>";
+
+  $body .= "
+    <strong style='color:#0090C6;'>Nick: </strong>
+    <span style='color:#767676;'>Nick</span>";
+
+  $body .= "
+    <strong style='color:#0090C6;'>Pagina Monitoreda: </strong>
+    <span style='color:#767676;'>Pagina</span></br>";
+
+  $body .= "</body></html>";
+
+  $_name = $filename;
+  // $_size = $filename["size"];
+
+  if (strcmp($_name, "")) //FILES EXISTS
+  {
+    $fp = fopen($filename, "rb");
+    $file = fread($fp, filesize($filename));
+    $file = chunk_split(base64_encode($file));
+
+    // MULTI-HEADERS Content-Type: multipart/mixed and Boundary is mandatory.
+    $headers = "From: Monitoreo Grupo Bedoya <monitoreogrupobedoya@hotmail.com>\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: multipart/mixed; ";
+    $headers .= "boundary=" . $num . "\r\n";
+    $headers .= "--" . $num . "\n";
+
+    // HTML HEADERS 
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "Content-Transfer-Encoding: 8bit\r\n";
+    $headers .= "" . $body . "\n";
+    $headers .= "--" . $num . "\n";
+
+    // FILES HEADERS 
+    $headers .= "Content-Type:application/octet-stream ";
+    $headers .= "name=\"" . $_name . "\"r\n";
+    $headers .= "Content-Transfer-Encoding: base64\r\n";
+    $headers .= "Content-Disposition: attachment; ";
+    $headers .= "filename=\"" . $_name . "\"\r\n\n";
+    $headers .= "" . $file . "\r\n";
+    $headers .= "--" . $num . "--";
+  } else { //FILES NO EXISTS
+
+    // HTML HEADERS
+    $headers = "From: Grupo Bedoya \r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "Content-Transfer-Encoding: 8bit\r\n";
+  }
+  $to = $params->email;
+
+  // SEND MAIL
+  mail($to, "Monitoreo grupo bedoya", $body, $headers);
+
+  echo "<div class='ok'>
+    <strong>El formulario se ha enviado correctamente.</strong></div>";
+
+
+  $cabeceras = 'MIME-Version: 1.0' . "\r\n";
+  $cabeceras .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+
+  $subject = "Ticket Generado";
+  $message = "<h1>Hola: </h1>Presentar el siguiente ticket al ingresar.";
+
+  $response->correo = $to;
+
+  $enviado = mail($to, $subject, $message, $cabeceras);
 
   header('Content-Type: application/json');
   echo json_encode($response);
