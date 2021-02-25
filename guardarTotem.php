@@ -22,7 +22,7 @@ if($params->esEdicion){
   $resultado = $sentencia->execute();  
 }  else{
     $sentencia = $base_de_datos->prepare("INSERT INTO totem(codigo, codigo_tienda, ubicacion) VALUES (?, ?, ?);");
-    $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->codigo_tienta), strtoupper($params->ubicacion)]);
+    $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->codigo_tienda), strtoupper($params->ubicacion)]);
     
 }
   
