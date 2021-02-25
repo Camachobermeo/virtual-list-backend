@@ -18,10 +18,13 @@ try {
   if ($params->esEdicion) {
     $sentencia = $base_de_datos->prepare("UPDATE usuario 
                                           SET (codigo, rut, nombre, apellidos, telefono) = 
-                                          ('$params->codigo', '$params->rut', '$params->nombre', '$params->apellidos', '$params->telefono') WHERE codigo = '$params->codigo'");
-  }
-  //  $sentencia = $base_de_datos->prepare("INSERT INTO usuario(codigo, rut, nombre, apellidos, telefono) VALUES (?, ?, ?, ?, ?);");
-  $resultado = $sentencia->execute();
+                                          ('$params->codigo', upper('$params->rut'), upper('$params->nombre'), upper('$params->apellidos'), upper('$params->telefono')) WHERE codigo = '$params->codigo'");
+$resultado = $sentencia->execute();  
+}  else {
+$sentencia = $base_de_datos->prepare("INSERT INTO usuario(codigo, rut, nombre, apellidos, telefono) VALUES (?, ?, ?, ?, ?);");
+$resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre), strtoupper($params->apellidos), strtoupper($params->telefono)]);
+}
+  
 
   $response = new Result();
 

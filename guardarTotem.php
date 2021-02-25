@@ -15,8 +15,17 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-  $sentencia = $base_de_datos->prepare("INSERT INTO totem(codigo, codigo_tienda, ubicacion) VALUES (?, ?, ?);");
-  $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->codigo_tienda), strtoupper($params->ubicacion)]);
+if($params->esEdicion){
+  $sentencia = $base_de_datos->prepare("UPDATE  totem
+                                        SET (codigo, codigo_tienda, ubicacion) =
+                                        ('$params->codigo', upper('$params->codigo_tienda'), upper('$params->ubicacion')) WHERE codigo = '$params->codigo'");
+  $resultado = $sentencia->execute();  
+}  else{
+    $sentencia = $base_de_datos->prepare("INSERT INTO totem(codigo, codigo_tienda, ubicacion) VALUES (?, ?, ?);");
+    $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->codigo_tienta), strtoupper($params->ubicacion)]);
+    
+}
+  
 
   $response = new Result();
 
