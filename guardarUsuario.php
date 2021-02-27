@@ -14,15 +14,15 @@ class Result
 try {
 
   include_once "utiles/base_de_datos.php";
-
+  $estado = $params->estado == false ? 0 : 1;
   if ($params->esEdicion) {
     $sentencia = $base_de_datos->prepare("UPDATE usuario 
-                                          SET (codigo, rut, nombre, apellidos, telefono) = 
-                                          ('$params->codigo', upper('$params->rut'), upper('$params->nombre'), upper('$params->apellidos'), upper('$params->telefono')) WHERE codigo = '$params->codigo'");
-$resultado = $sentencia->execute();  
+                                          SET (codigo, rut, nombre, apellidos, telefono, clave, estado) = 
+                                          (?, ?, ?, ?, ?, ?, ?) WHERE codigo = '$params->codigo'");
+$resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre), strtoupper($params->apellidos), strtoupper($params->telefono), $params->clave, $estado]);  
 }  else {
-$sentencia = $base_de_datos->prepare("INSERT INTO usuario(codigo, rut, nombre, apellidos, telefono) VALUES (?, ?, ?, ?, ?);");
-$resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre), strtoupper($params->apellidos), strtoupper($params->telefono)]);
+$sentencia = $base_de_datos->prepare("INSERT INTO usuario(codigo, rut, nombre, apellidos, telefono, clave, estado) VALUES (?, ?, ?, ?, ?, ?, ?);");
+$resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre), strtoupper($params->apellidos), strtoupper($params->telefono), $params->clave, $estado]);
 }
   
 
