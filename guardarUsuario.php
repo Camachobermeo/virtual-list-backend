@@ -19,10 +19,10 @@ try {
     $sentencia = $base_de_datos->prepare("UPDATE usuario 
                                           SET (codigo, rut, nombre, apellidos, telefono, clave, estado) = 
                                           (?, ?, ?, ?, ?, ?, ?) WHERE codigo = '$params->codigo'");
-$resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre), strtoupper($params->apellidos), strtoupper($params->telefono), $params->clave, $estado]);  
+$resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre), strtoupper($params->apellidos), strtoupper($params->telefono), $params->clave,  strtoupper($estado)]);  
 }  else {
 $sentencia = $base_de_datos->prepare("INSERT INTO usuario(codigo, rut, nombre, apellidos, telefono, clave, estado) VALUES (?, ?, ?, ?, ?, ?, ?);");
-$resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre), strtoupper($params->apellidos), strtoupper($params->telefono), $params->clave, $estado]);
+$resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre), strtoupper($params->apellidos), strtoupper($params->telefono), $params->clave,  strtoupper($estado)]);
 }
   
 
