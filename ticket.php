@@ -24,19 +24,26 @@ try {
   // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
 
   $fecha = date("Y-m-d H:i:s");
-  $recordar = $params->recordatorio == false ? 0 : 1;
-  $sentencia = $base_de_datos->prepare("INSERT INTO ticket(codigo_tipo_operacion, email, telefono, recordatorio, fecha_sacado, rut, nombres) VALUES (?, ?, ?, ?, ?, ?, ?);");
-  $resultado = $sentencia->execute([$params->codigo_tipo_operacion, $params->email, $params->telefono, $recordar, $fecha, $params->rut, $params->nombres]);
+  $recordar = $params->recordatorio == false ? 'no' : 'yes';
+  $query = 
+    "INSERT INTO ticket(codigo_tipo_operacion, email, telefono, recordatorio, fecha_sacado, rut, nombres)
+     VALUES ('$params->codigo_tipo_operacion', '$params->email', '$params->telefono', '$recordar', '$fecha', '$params->rut', '$params->nombres') RETURNING secuencial;
+     "
+  ;
+
+  $conexion = pg_connect("host=" . $rutaServidor . " port=" . $puerto . " dbname=" . $nombreBaseDeDatos . " user=" . $usuario . " password=" . $clave . "") or die('Error al conectar con la base de datos: ' . pg_last_error());
+  $resource = pg_Exec($conexion, $query);
+  $resultado = pg_fetch_array($resource);
 
   $response = new Result();
-  if ($resultado == true) {
+
+  if ($resultado) {
     $response->mensaje = 'Usted reservó un ticket para ser atendido. Revise su correo electrónico.';
 
     if (!file_exists($PNG_TEMP_DIR))
       mkdir($PNG_TEMP_DIR);
 
     $filename = $PNG_TEMP_DIR . 'test.png';
-    // user data
     $filename = $PNG_TEMP_DIR . 'test' . md5('MARIO' . '|H|10') . '.png';
     QRcode::png('MARIO', $filename, 'H', '10', 2);
 
@@ -61,7 +68,6 @@ try {
 } catch (Exception $th) {
   $response = new Result();
   $response->mensaje = $th->getMessage();
-  $response->hola = $params->recordatorio;
 
   header('Content-Type: application/json');
   echo json_encode($response);
