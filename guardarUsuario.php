@@ -31,7 +31,7 @@ $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($param
   if ($resultado == true) {
     $response->mensaje = 'Usuario guardado correctamente.';
   } else {
-    $response->mensaje = 'Ocurrió un error al guardar al usuario.';
+    $response->mensaje = 'Ocurrió un error al guardar el usuario.';
   }
   $response->resultado = $resultado;
 

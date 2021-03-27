@@ -24,7 +24,7 @@ try {
     $response = new Result();
     if ($resultado){
         $response->resultado = $resultado[0];
-        $response->mensaje = 'Inicio De Sesion Correcta';
+        $response->mensaje = 'Inicio De Sesión Correcta';
     }else{
         $response->mensaje = 'Usuario no existente.';
     }

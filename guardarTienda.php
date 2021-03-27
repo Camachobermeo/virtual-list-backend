@@ -30,9 +30,9 @@ try {
   $response = new Result();
 
   if ($resultado == true) {
-    $response->mensaje = 'Totem guardado correctamente.';
+    $response->mensaje = 'Tienda guardado correctamente.';
   } else {
-    $response->mensaje = 'Ocurrió un error al guardar el Totem.';
+    $response->mensaje = 'Ocurrió un error al guardar la Tienda.';
   }
   $response->resultado = $resultado;
 
