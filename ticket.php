@@ -56,11 +56,16 @@ try {
     }
 
     $subject = "Ticket Generado " . $textoCodigo;
+
     $message = '<h3>Hola: ' . $params->nombres . ' <br> </h3> Usted reservó el siguiente ticket: 
+              <img src="' . $imagen . '" />
+              <img src="https://drive.google.com/file/d/1EjngHyBSjDtrd0SubkFlcE2FTlYSSICz/view?usp=sharing">          
               <br> 
               <img src="' . $imagen . '" />
               <img src="https://k60.kn3.net/E/7/F/2/4/8/472.gif">
               <br> 
+              <img src="' . $imagen . '" />
+              <img src="https://drive.google.com/file/d/1j4YJqotD7-VfAEbqXTW4t7QyF6f8v_Dx/view">
               Presentar el siguiente ticket al ingresar.';
 
     $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
