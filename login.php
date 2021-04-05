@@ -16,7 +16,7 @@ try {
 
     include_once "utiles/base_de_datos.php";
 
-    $query = "SELECT * FROM usuario WHERE codigo = '$params->codigo' and clave = '$params->clave' and estado = true;";
+    $query = "SELECT * FROM usuario WHERE codigo = '$params->codigo' and rut = '$params->rut' and clave = '$params->clave' and estado = true;";
     $sentencia = $base_de_datos->query($query);
     $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
