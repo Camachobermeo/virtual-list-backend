@@ -12,7 +12,7 @@ try {
 
     include_once "utiles/base_de_datos.php";
 
-    $query = "select tipo.codigo, tipo.codigo_totem, tipo.descripcion from tipo_operacion AS tipo 
+    $query = "select tipo.codigo, tipo.codigo_totem, tipo.descripcion, tipo.tiempo_estimado_minutos, tipo.costo_estimado from tipo_operacion AS tipo 
   INNER JOIN totem t on t.codigo = tipo.codigo_totem
   INNER JOIN tienda ti on ti.codigo = t.codigo_tienda
   where ti.codigo = '$params->tienda'";
