@@ -14,6 +14,7 @@ class Result
 
 try {
     include_once "utiles/base_de_datos.php";
+    date_default_timezone_set('America/Lima');
     $query = "SELECT * FROM ticket where DATE(fecha_sacado) = '" . $params->fecha_sacado . "'";
     $sentencia = $base_de_datos->query($query);
     $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);

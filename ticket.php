@@ -22,7 +22,7 @@ try {
   include_once "utiles/base_de_datos.php";
   include_once "utiles/phpqrcode.php";
   // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
-
+  date_default_timezone_set('America/Lima');
   $fecha = date("Y-m-d H:i:s");
   $recordar = $params->recordatorio == false ? 'no' : 'yes';
   $query =
