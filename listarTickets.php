@@ -15,7 +15,11 @@ class Result
 try {
     include_once "utiles/base_de_datos.php";
     date_default_timezone_set('America/Lima');
-    $query = "SELECT * FROM ticket where DATE(fecha_sacado) = '" . $params->fecha_sacado . "'";
+    $query = "SELECT ticket.* FROM ticket 
+    inner join tipo_operacion tipo on tipo.codigo = codigo_tipo_operacion 
+    inner join totem t on t.codigo = tipo.codigo_totem 
+    inner join tienda ti on ti.codigo = t.codigo_tienda 
+    where ti.codigo = '" . $params->sucursal . "' and DATE(fecha_sacado) = '" . $params->fecha_sacado . "' order by fecha_sacado";
     $sentencia = $base_de_datos->query($query);
     $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 

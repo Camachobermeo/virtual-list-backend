@@ -30,9 +30,9 @@ $resultado = $sentencia->execute();
   $response = new Result();
 
   if ($resultado == true) {
-    $response->mensaje = 'Tipo operación guardado correctamente.';
+    $response->mensaje = 'Fila guardada correctamente.';
   } else {
-    $response->mensaje = 'Ocurrió un error al guardar el Tipo operación.';
+    $response->mensaje = 'Ocurrió un error al guardar la Fila.';
   }
   $response->resultado = $resultado;
 

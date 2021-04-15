@@ -75,9 +75,9 @@ try {
   $response = new Result();
 
   if ($resultado == true) {
-    $response->mensaje = 'Tienda guardado correctamente.';
+    $response->mensaje = 'Sucursal guardado correctamente.';
   } else {
-    $response->mensaje = 'Ocurrió un error al guardar la Tienda.';
+    $response->mensaje = 'Ocurrió un error al guardar la Sucursal.';
   }
   $response->resultado = $resultado;
   $response->params = $params;
