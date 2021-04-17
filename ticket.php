@@ -3,6 +3,13 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
+use PHPMailer\PHPMailer\PHPMailer;  //estas son las funciones
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/Exception.php';   //aqui las librerias
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+
 
 $json = file_get_contents('php://input');
 
@@ -12,6 +19,8 @@ $PNG_TEMP_DIR = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEP
 
 //html PNG location prefix
 $PNG_WEB_DIR = 'temp/';
+
+$mail = new PHPMailer(true);    //se crea el objeto
 
 class Result
 {
@@ -182,7 +191,31 @@ try {
     $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
     $cabeceras .= 'Content-type:  text/html; charset=iso-8859-1' . "\r\n";
 
-    $enviado = mail($params->email, $subject, $message, $cabeceras);
+    // $enviado = mail($params->email, $subject, $message, $cabeceras);
+
+    //Server settings
+    $mail->SMTPDebug = 2;                      //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'kottoland@gmail.com';                     //SMTP username
+    $mail->Password   = 'Megustaelvin0';                               //SMTP password
+    $mail->SMTPSecure = 'tls';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+    $mail->Port       =  587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+
+    //Recipients
+    $mail->setFrom('kottoland@gmail.com', 'Checkseguro');
+    $mail->addAddress('daniel@almodobar.cl');     //destinatario...
+
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = $subject;
+    $mail->Body    = $message;
+    $mail->AltBody = $message;
+
+    $mail->send();
+    // echo 'Mensaje enviado correctamente...';
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }
@@ -192,7 +225,7 @@ try {
   echo json_encode($response);
 } catch (Exception $th) {
   $response = new Result();
-  $response->mensaje = $th->getMessage();
+  $response->mensaje =  $mail->ErrorInfo;
 
   header('Content-Type: application/json');
   echo json_encode($response);
