@@ -15,7 +15,8 @@ class Result
 try {
 
   include_once "utiles/base_de_datos.php";
-  date_default_timezone_set('America/Lima');
+  include_once "utiles/constantes.php";
+  date_default_timezone_set($zonaHoraria);
   $fecha = date("Y-m-d H:i:s");
   if ($params->estado != null) {
     $query = "SELECT * FROM ticket WHERE codigo_tipo_operacion = '$params->codigo' AND DATE(fecha_sacado) = '" . $fecha . "' AND estado = '$params->estado' order by fecha_sacado  DESC LIMIT 1;";

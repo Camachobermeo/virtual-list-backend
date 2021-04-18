@@ -14,7 +14,8 @@ class Result
 
 try {
     include_once "utiles/base_de_datos.php";
-    date_default_timezone_set('America/Lima');
+    include_once "utiles/constantes.php";
+    date_default_timezone_set($zonaHoraria);
     $query = "SELECT ticket.* FROM ticket 
     inner join tipo_operacion tipo on tipo.codigo = codigo_tipo_operacion 
     inner join totem t on t.codigo = tipo.codigo_totem 

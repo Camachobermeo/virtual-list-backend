@@ -13,7 +13,7 @@ try {
 
   include_once "utiles/base_de_datos.php";
   $sentencia = $base_de_datos->prepare("UPDATE  ticket
-                                        SET (estado) = (upper('$params->estado')) WHERE secuencial = '$params->secuencial'");
+                                        SET estado = upper('$params->estado') WHERE secuencial = '$params->secuencial'");
   $resultado = $sentencia->execute();
   $response = new Result();
   if ($resultado == true) {

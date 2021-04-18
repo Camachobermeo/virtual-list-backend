@@ -10,16 +10,12 @@ require 'PHPMailer/Exception.php';   //aqui las librerias
 require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
 
-
 $json = file_get_contents('php://input');
-
 $params = json_decode($json);
-
 $PNG_TEMP_DIR = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR;
 
 //html PNG location prefix
 $PNG_WEB_DIR = 'temp/';
-
 $mail = new PHPMailer(true);    //se crea el objeto
 
 class Result
@@ -27,11 +23,11 @@ class Result
 }
 
 try {
-
   include_once "utiles/base_de_datos.php";
   include_once "utiles/phpqrcode.php";
   // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
-  date_default_timezone_set('America/Lima');
+  include_once "utiles/constantes.php";
+  date_default_timezone_set($zonaHoraria);
   $fecha = date("Y-m-d H:i:s");
   $recordar = $params->recordatorio == false ? 'no' : 'yes';
   $query =
@@ -65,18 +61,6 @@ try {
     // }
 
     $subject = "Ticket Generado " . $textoCodigo;
-
-    // $message = '<h3>Hola: ' . $params->nombres . ' <br> </h3> Usted reservó el siguiente ticket: 
-    //           <img src="' . $imagen . '" />
-    //           <img src="https://drive.google.com/file/d/1EjngHyBSjDtrd0SubkFlcE2FTlYSSICz/view?usp=sharing">          
-    //           <br> 
-    //           <img src="' . $imagen . '" />
-    //           <img src="https://k60.kn3.net/E/7/F/2/4/8/472.gif">
-    //           <br> 
-    //           <img src="' . $imagen . '" />
-    //           <img src="https://drive.google.com/file/d/1j4YJqotD7-VfAEbqXTW4t7QyF6f8v_Dx/view">
-    //           Presentar el siguiente ticket al ingresar.';
-
     $message = '<html lang="es" style="font-family: sans-serif; font-size: 12px; font-weight: bold;">
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -188,11 +172,7 @@ try {
     
     </html>';
 
-    $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-    $cabeceras .= 'Content-type:  text/html; charset=iso-8859-1' . "\r\n";
-
     // $enviado = mail($params->email, $subject, $message, $cabeceras);
-
     //Server settings
     $mail->SMTPDebug = 0;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
@@ -206,8 +186,6 @@ try {
     //Recipients
     $mail->setFrom('kottoland@gmail.com', 'Checkseguro');
     $mail->addAddress($params->email);     //destinatario...
-
-
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = $subject;
@@ -215,7 +193,6 @@ try {
     $mail->AltBody = $message;
 
     $mail->send();
-    // echo 'Mensaje enviado correctamente...';
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }

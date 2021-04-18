@@ -1,0 +1,2 @@
+<?php
+$zonaHoraria = 'America/Lima';

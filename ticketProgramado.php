@@ -3,13 +3,9 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
-
 $json = file_get_contents('php://input');
-
 $params = json_decode($json);
-
 $PNG_TEMP_DIR = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR;
-
 //html PNG location prefix
 $PNG_WEB_DIR = 'temp/';
 
@@ -18,11 +14,11 @@ class Result
 }
 
 try {
-
   include_once "utiles/base_de_datos.php";
   include_once "utiles/phpqrcode.php";
   // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
-  date_default_timezone_set('America/Lima');
+  include_once "utiles/constantes.php";
+  date_default_timezone_set($zonaHoraria);
   $fecha = date("Y-m-d H:i:s");
   $recordar = $params->recordatorio == false ? 'no' : 'yes';
   $query =
@@ -39,35 +35,23 @@ try {
   if ($resultado) {
     $response->mensaje = 'Usted reservó un ticket para ser atendido. Revise su correo electrónico.';
 
-    if (!file_exists($PNG_TEMP_DIR))
-      mkdir($PNG_TEMP_DIR);
+    // if (!file_exists($PNG_TEMP_DIR))
+    //   mkdir($PNG_TEMP_DIR);
 
     $textoCodigo = $params->codigo_tipo_operacion . "-" . $params->fecha_cita . "-" . $params->hora_cita;
     $textoQR = $textoCodigo . " --> " . $fecha;
 
-    $filename = $PNG_TEMP_DIR . 'test.png';
-    $filename = $PNG_TEMP_DIR . 'test' . md5($textoQR . '|H|10') . '.png';
-    QRcode::png($textoQR, $filename, 'H', '10', 2);
+    // $filename = $PNG_TEMP_DIR . 'test.png';
+    // $filename = $PNG_TEMP_DIR . 'test' . md5($textoQR . '|H|10') . '.png';
+    // QRcode::png($textoQR, $filename, 'H', '10', 2);
     $imagen = "";
 
-    if ($filename) {
-      $imgbinary = fread(fopen($filename, "r"), filesize($filename));
-      $imagen = 'data:image/png;base64,' . base64_encode($imgbinary);
-    }
+    // if ($filename) {
+    //   $imgbinary = fread(fopen($filename, "r"), filesize($filename));
+    //   $imagen = 'data:image/png;base64,' . base64_encode($imgbinary);
+    // }
 
     $subject = "Ticket Generado " . $textoCodigo;
-
-    // $message = '<h3>Hola: ' . $params->nombres . ' <br> </h3> Usted reservó el siguiente ticket: 
-    //           <img src="' . $imagen . '" />
-    //           <img src="https://drive.google.com/file/d/1EjngHyBSjDtrd0SubkFlcE2FTlYSSICz/view?usp=sharing">          
-    //           <br> 
-    //           <img src="' . $imagen . '" />
-    //           <img src="https://k60.kn3.net/E/7/F/2/4/8/472.gif">
-    //           <br> 
-    //           <img src="' . $imagen . '" />
-    //           <img src="https://drive.google.com/file/d/1j4YJqotD7-VfAEbqXTW4t7QyF6f8v_Dx/view">
-    //           Presentar el siguiente ticket al ingresar.';
-
     $message = '<html lang="es" style="font-family: sans-serif; font-size: 12px; font-weight: bold;">
               <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -179,10 +163,26 @@ try {
               
               </html>';
 
-    $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-    $cabeceras .= 'Content-type:  text/html; charset=iso-8859-1' . "\r\n";
+    // $enviado = mail($params->email, $subject, $message, $cabeceras);
+    //Server settings
+    $mail->SMTPDebug = 0;                      //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'kottoland@gmail.com';                     //SMTP username
+    $mail->Password   = 'Megustaelvin0';                               //SMTP password
+    $mail->SMTPSecure = 'tls';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+    $mail->Port       =  587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+    //Recipients
+    $mail->setFrom('kottoland@gmail.com', 'Checkseguro');
+    $mail->addAddress($params->email);     //destinatario...
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = $subject;
+    $mail->Body    = $message;
+    $mail->AltBody = $message;
 
-    $enviado = mail($params->email, $subject, $message, $cabeceras);
+    $mail->send();
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }
