@@ -48,21 +48,21 @@ try {
   if ($resultado) {
     $response->mensaje = 'Usted reservó un ticket para ser atendido. Revise su correo electrónico.';
 
-    if (!file_exists($PNG_TEMP_DIR))
-      mkdir($PNG_TEMP_DIR);
+    // if (!file_exists($PNG_TEMP_DIR))
+    //   mkdir($PNG_TEMP_DIR);
 
     $textoCodigo = $params->codigo_tipo_operacion . "-" . $resultado->numeracion;
     $textoQR = $textoCodigo . " --> " . $fecha;
 
-    $filename = $PNG_TEMP_DIR . 'test.png';
-    $filename = $PNG_TEMP_DIR . 'test' . md5($textoQR . '|H|10') . '.png';
-    QRcode::png($textoQR, $filename, 'H', '10', 2);
+    // $filename = $PNG_TEMP_DIR . 'test.png';
+    // $filename = $PNG_TEMP_DIR . 'test' . md5($textoQR . '|H|10') . '.png';
+    // QRcode::png($textoQR, $filename, 'H', '10', 2);
     $imagen = "";
 
-    if ($filename) {
-      $imgbinary = fread(fopen($filename, "r"), filesize($filename));
-      $imagen = 'data:image/png;base64,' . base64_encode($imgbinary);
-    }
+    // if ($filename) {
+    //   $imgbinary = fread(fopen($filename, "r"), filesize($filename));
+    //   $imagen = 'data:image/png;base64,' . base64_encode($imgbinary);
+    // }
 
     $subject = "Ticket Generado " . $textoCodigo;
 
@@ -194,7 +194,7 @@ try {
     // $enviado = mail($params->email, $subject, $message, $cabeceras);
 
     //Server settings
-    $mail->SMTPDebug = 2;                      //Enable verbose debug output
+    $mail->SMTPDebug = 0;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -205,7 +205,7 @@ try {
 
     //Recipients
     $mail->setFrom('kottoland@gmail.com', 'Checkseguro');
-    $mail->addAddress('daniel@almodobar.cl');     //destinatario...
+    $mail->addAddress($params->email);     //destinatario...
 
 
     //Content
