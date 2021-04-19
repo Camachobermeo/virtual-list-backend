@@ -12,12 +12,25 @@ class Result
 try {
 
   include_once "utiles/base_de_datos.php";
-  $sentencia = $base_de_datos->prepare("UPDATE  ticket
-                                        SET estado = upper('$params->estado') WHERE secuencial = '$params->secuencial'");
-  $resultado = $sentencia->execute();
+  if ($params->estado) {
+    $sentencia = $base_de_datos->prepare("UPDATE  ticket
+    SET (estado, usuario) = (?, ?) WHERE secuencial = '$params->secuencial'");
+
+    $resultado = $sentencia->execute([
+      strtoupper($params->estado), strtoupper($params->usuario)
+    ]);
+  } else {
+    $sentencia = $base_de_datos->prepare("UPDATE  ticket
+    SET (estado, usuario) = (?, ?) WHERE secuencial = '$params->secuencial'");
+
+    $resultado = $sentencia->execute([
+      null, null
+    ]);
+  }
+
   $response = new Result();
   if ($resultado == true) {
-    $response->mensaje = 'Estado modificado correctamente.';
+    $response->mensaje = 'El Ticket cambió de estado: ' . $params->estado;
   } else {
     $response->mensaje = 'Ocurrió un error al modificar estado.';
   }
