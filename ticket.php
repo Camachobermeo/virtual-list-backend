@@ -134,7 +134,7 @@ try {
           <div style="padding: 10px 3% 10px 3%; display: flex;">
             <div style="color: white; text-align: right; padding: 2%; width: 33.333333%; max-width: 33.333333%;">
             
-              <img src="https://k60.kn3.net/E/7/F/2/4/8/472.gif">
+              <a href=' . $params->url . '> Visualizar Atenciones </a>
 
             </div>
             <div style="padding: 2%; width: 66.666667%; max-width: 66.666667%; color: #616060;">
@@ -171,6 +171,9 @@ try {
     </body>
     
     </html>';
+
+    $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+    $cabeceras .= 'Content-type:  text/html; charset=iso-8859-1' . "\r\n";
 
     // $enviado = mail($params->email, $subject, $message, $cabeceras);
     //Server settings
