@@ -18,9 +18,8 @@ try {
     date_default_timezone_set($zonaHoraria);
     $query = "SELECT ticket.* FROM ticket 
     inner join fila fila on fila.codigo = codigo_fila 
-    inner join totem t on t.codigo = fila.codigo_totem 
-    inner join sucursal ti on ti.codigo = t.codigo_sucursal 
-    where ti.codigo = '" . $params->sucursal . "' and DATE(fecha_sacado) = '" . $params->fecha_sacado . "' order by fecha_sacado";
+    inner join sucursal su on su.codigo = fila.codigo_sucursal 
+    where su.codigo = '" . $params->sucursal . "' and DATE(fecha_sacado) = '" . $params->fecha_sacado . "' order by fecha_sacado";
     $sentencia = $base_de_datos->query($query);
     $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
