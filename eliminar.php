@@ -14,14 +14,18 @@ class Result
 
 try {
 
-    include_once "utiles/base_de_datos.php";
+  include_once "utiles/base_de_datos.php";
 
+  if ($params->tabla == 'usuario') {
+    $query = "DELETE FROM $params->tabla WHERE username = '$params->username';";
+  } else {
     $query = "DELETE FROM $params->tabla WHERE codigo = '$params->codigo';";
+  }
 
-    $sentencia = $base_de_datos->query($query);
-    $resultado = $sentencia->execute();
+  $sentencia = $base_de_datos->query($query);
+  $resultado = $sentencia->execute();
 
-    $response = new Result();
+  $response = new Result();
 
   if ($resultado == true) {
     $response->mensaje = 'Datos eliminados correctamente.';
@@ -30,11 +34,11 @@ try {
   }
   $response->resultado = $resultado;
 
-    header('Content-Type: application/json');
-    echo json_encode($response);
+  header('Content-Type: application/json');
+  echo json_encode($response);
 } catch (Exception $th) {
-    $response = new Result();
-    $response->mensaje = $th->getMessage();
-    header('Content-Type: application/json');
-    echo json_encode($response);
+  $response = new Result();
+  $response->mensaje = $th->getMessage();
+  header('Content-Type: application/json');
+  echo json_encode($response);
 }

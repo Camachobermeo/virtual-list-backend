@@ -12,7 +12,7 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-  $query = "SELECT * FROM usuario WHERE rut = '$params->empresa';";
+  $query = "SELECT * FROM usuario WHERE rut_empresa = '$params->empresa';";
   $sentencia = $base_de_datos->query($query);
   $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 

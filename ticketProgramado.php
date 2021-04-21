@@ -3,11 +3,19 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
+use PHPMailer\PHPMailer\PHPMailer;  //estas son las funciones
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/Exception.php';   //aqui las librerias
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+
 $json = file_get_contents('php://input');
 $params = json_decode($json);
 $PNG_TEMP_DIR = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR;
 //html PNG location prefix
 $PNG_WEB_DIR = 'temp/';
+$mail = new PHPMailer(true);    //se crea el objeto
 
 class Result
 {

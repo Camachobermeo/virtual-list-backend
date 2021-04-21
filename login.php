@@ -16,18 +16,18 @@ try {
 
     include_once "utiles/base_de_datos.php";
 
-    $query = "SELECT * FROM usuario WHERE codigo = '$params->codigo' and rut = '$params->rut' and clave = '$params->clave' and estado = true;";
+    $query = "SELECT * FROM usuario WHERE username = '$params->username' and rut_empresa = '$params->rut_empresa' and clave = '$params->clave' and estado = true;";
     $sentencia = $base_de_datos->query($query);
     $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
     $response = new Result();
-    if ($resultado){
+    if ($resultado) {
         $response->resultado = $resultado[0];
         $response->mensaje = 'Inicio De Sesión Correcta';
-    }else{
+    } else {
         $response->mensaje = 'Usuario no existente.';
     }
-   
+
 
     header('Content-Type: application/json');
     echo json_encode($response);

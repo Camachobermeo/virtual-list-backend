@@ -17,17 +17,17 @@ try {
   $estado = $params->estado == false ? 0 : 1;
   if ($params->esEdicion) {
     $sentencia = $base_de_datos->prepare("UPDATE usuario 
-                                          SET (codigo, rut, nombre, apellidos, telefono, clave, estado, codigo_sucursal, ventanilla, tipo_usuario) = 
-                                          (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) WHERE codigo = '$params->codigo'");
+                                          SET (nombre, apellidos, telefono, clave, estado, codigo_sucursal, ventanilla, tipo_usuario) = 
+                                          (?, ?, ?, ?, ?, ?, ?, ?) WHERE username = '$params->username'");
     $resultado = $sentencia->execute([
-      strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre),
+      strtoupper($params->nombre),
       strtoupper($params->apellidos), strtoupper($params->telefono), $params->clave,  strtoupper($estado), $params->codigo_sucursal,
       strtoupper($params->ventanilla), strtoupper($params->tipo_usuario)
     ]);
   } else {
-    $sentencia = $base_de_datos->prepare("INSERT INTO usuario(codigo, rut, nombre, apellidos, telefono, clave, estado, codigo_sucursal, ventanilla, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+    $sentencia = $base_de_datos->prepare("INSERT INTO usuario(username, rut_empresa, nombre, apellidos, telefono, clave, estado, codigo_sucursal, ventanilla, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
     $resultado = $sentencia->execute([
-      strtoupper($params->codigo), strtoupper($params->rut), strtoupper($params->nombre),
+      strtoupper($params->username), strtoupper($params->rut_empresa), strtoupper($params->nombre),
       strtoupper($params->apellidos), strtoupper($params->telefono), $params->clave,  strtoupper($estado), $params->codigo_sucursal,
       strtoupper($params->ventanilla), strtoupper($params->tipo_usuario)
     ]);
