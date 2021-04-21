@@ -17,12 +17,11 @@ try {
     include_once "utiles/constantes.php";
     date_default_timezone_set($zonaHoraria);
     $query = "SELECT ticket.* FROM ticket 
-    inner join tipo_operacion tipo on tipo.codigo = codigo_tipo_operacion 
-    inner join totem t on t.codigo = tipo.codigo_totem 
-    inner join tienda ti on ti.codigo = t.codigo_tienda 
-    where ti.codigo = '" . $params->sucursal . "' and (estado is null or (estado = 'EN ATENCION' and usuario = '" . $params->usuario . "')) and DATE(fecha_sacado) = '" . $params->fecha_sacado . "'";
-    if ($params->tipo) {
-        $query = $query . " and tipo.codigo = '" . $params->tipo . "'";
+    inner join fila fila on fila.codigo = codigo_fila 
+    inner join sucursal su on su.codigo = fila.codigo_sucursal 
+    where su.codigo = '" . $params->sucursal . "' and (estado is null or (estado = 'EN ATENCION' and usuario = '" . $params->usuario . "')) and DATE(fecha_sacado) = '" . $params->fecha_sacado . "'";
+    if ($params->fila) {
+        $query = $query . " and fila.codigo = '" . $params->fila . "'";
     }
     $query = $query . " order by fecha_sacado limit 1";
 

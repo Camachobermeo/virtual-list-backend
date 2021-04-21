@@ -12,7 +12,7 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-  $query = "SELECT * FROM totem WHERE codigo_sucursal = '$params->sucursal';";
+  $query = "SELECT * FROM fila WHERE codigo = '$params->codigo';";
   $sentencia = $base_de_datos->query($query);
   $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
@@ -21,7 +21,7 @@ try {
   }
 
   $response = new Result();
-  $response->resultado = $resultado;
+  $response->resultado = $resultado[0];
   $response->mensaje = 'Datos Listados Correctamente';
 
   header('Content-Type: application/json');

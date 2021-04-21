@@ -20,7 +20,6 @@ try {
     $sentencia = $base_de_datos->query($query);
     $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
-
     $response = new Result();
     if ($resultado){
         $response->resultado = $resultado[0];

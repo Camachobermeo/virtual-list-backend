@@ -16,13 +16,13 @@ try {
   include_once "utiles/base_de_datos.php";
 
   if ($params->esEdicion) {
-    $sentencia = $base_de_datos->prepare("UPDATE tipo_operacion 
-                                          SET (codigo, codigo_totem, descripcion, tiempo_estimado_minutos, costo_estimado) = 
-                                          (upper('$params->codigo'), '$params->codigo_totem', upper('$params->descripcion'), $params->tiempo_estimado_minutos, $params->costo_estimado) WHERE codigo = '$params->codigo'");
+    $sentencia = $base_de_datos->prepare("UPDATE fila 
+                                          SET (codigo, codigo_sucursal, descripcion, tiempo_estimado_minutos, costo_estimado) = 
+                                          (upper('$params->codigo'), '$params->codigo_sucursal', upper('$params->descripcion'), $params->tiempo_estimado_minutos, $params->costo_estimado) WHERE codigo = '$params->codigo'");
 $resultado = $sentencia->execute();  
 }  else {
-  $sentencia = $base_de_datos->prepare("INSERT INTO tipo_operacion(codigo, codigo_totem, descripcion, tiempo_estimado_minutos, costo_estimado) VALUES (?, ?, ?, ?, ?);");
-  $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->codigo_totem), strtoupper($params->descripcion), $params->tiempo_estimado_minutos, $params->costo_estimado]);
+  $sentencia = $base_de_datos->prepare("INSERT INTO fila(codigo, codigo_sucursal, descripcion, tiempo_estimado_minutos, costo_estimado) VALUES (?, ?, ?, ?, ?);");
+  $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->codigo_sucursal), strtoupper($params->descripcion), $params->tiempo_estimado_minutos, $params->costo_estimado]);
 }
 
 

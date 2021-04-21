@@ -12,7 +12,9 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-  $query = "SELECT * FROM tienda WHERE codigo = '$params->codigo';";
+  $query = "select fila.codigo, fila.codigo_sucursal, fila.descripcion, fila.tiempo_estimado_minutos, fila.costo_estimado from fila AS fila 
+  INNER JOIN sucursal su on su.codigo = fila.codigo_sucursal
+  where su.codigo = '$params->sucursal'";
   $sentencia = $base_de_datos->query($query);
   $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
@@ -21,7 +23,7 @@ try {
   }
 
   $response = new Result();
-  $response->resultado = $resultado[0];
+  $response->resultado = $resultado;
   $response->mensaje = 'Datos Listados Correctamente';
 
   header('Content-Type: application/json');

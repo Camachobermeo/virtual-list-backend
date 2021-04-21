@@ -17,9 +17,9 @@ try {
     include_once "utiles/constantes.php";
     date_default_timezone_set($zonaHoraria);
     $query = "SELECT ticket.* FROM ticket 
-    inner join tipo_operacion tipo on tipo.codigo = codigo_tipo_operacion 
-    inner join totem t on t.codigo = tipo.codigo_totem 
-    inner join tienda ti on ti.codigo = t.codigo_tienda 
+    inner join fila fila on fila.codigo = codigo_fila 
+    inner join totem t on t.codigo = fila.codigo_totem 
+    inner join sucursal ti on ti.codigo = t.codigo_sucursal 
     where ti.codigo = '" . $params->sucursal . "' and DATE(fecha_sacado) = '" . $params->fecha_sacado . "' order by fecha_sacado";
     $sentencia = $base_de_datos->query($query);
     $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);

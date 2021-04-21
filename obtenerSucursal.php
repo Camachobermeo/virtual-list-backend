@@ -12,7 +12,7 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-  $query = "SELECT * FROM tipo_operacion WHERE codigo = '$params->codigo';";
+  $query = "SELECT * FROM sucursal WHERE codigo = '$params->codigo';";
   $sentencia = $base_de_datos->query($query);
   $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 

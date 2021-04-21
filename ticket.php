@@ -31,8 +31,8 @@ try {
   $fecha = date("Y-m-d H:i:s");
   $recordar = $params->recordatorio == false ? 'no' : 'yes';
   $query =
-    "INSERT INTO ticket(codigo_tipo_operacion, email, telefono, recordatorio, fecha_sacado, rut, nombres, numeracion)
-     VALUES ('$params->codigo_tipo_operacion', '$params->email', '$params->telefono', '$recordar', '$fecha', '$params->rut', '$params->nombres', 0) RETURNING numeracion, fecha_sacado;
+    "INSERT INTO ticket(codigo_fila, email, telefono, recordatorio, fecha_sacado, rut, nombres, numeracion)
+     VALUES ('$params->codigo_fila', '$params->email', '$params->telefono', '$recordar', '$fecha', '$params->rut', '$params->nombres', 0) RETURNING numeracion, fecha_sacado;
      ";
 
   $conexion = pg_connect("host=" . $rutaServidor . " port=" . $puerto . " dbname=" . $nombreBaseDeDatos . " user=" . $usuario . " password=" . $clave . "") or die('Error al conectar con la base de datos: ' . pg_last_error());
@@ -47,7 +47,7 @@ try {
     // if (!file_exists($PNG_TEMP_DIR))
     //   mkdir($PNG_TEMP_DIR);
 
-    $textoCodigo = $params->codigo_tipo_operacion . "-" . $resultado->numeracion;
+    $textoCodigo = $params->codigo_fila . "-" . $resultado->numeracion;
     $textoQR = $textoCodigo . " --> " . $fecha;
 
     // $filename = $PNG_TEMP_DIR . 'test.png';
@@ -108,7 +108,7 @@ try {
             </div>
             <div
               style="padding: 0 2% 0 2%; width: 66.666667%; max-width: 66.666667%; font-weight: bold; background-color: #ffff;">
-              <div>' . $params->codigo_tipo_operacion . "-" . $resultado->numeracion . '</div>
+              <div>' . $params->codigo_fila . "-" . $resultado->numeracion . '</div>
             </div>
           </div>
           <div style="padding: 0 3% 0 3%; display: flex;">
