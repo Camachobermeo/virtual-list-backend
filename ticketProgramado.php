@@ -31,7 +31,7 @@ try {
   $recordar = $params->recordatorio == false ? 'no' : 'yes';
   $query =
     "INSERT INTO ticket_programado(codigo_fila, email, telefono, recordatorio, fecha_sacado, fecha_cita, hora_cita, rut, nombres)
-  VALUES ('$params->codigo_fila', '$params->email', '$params->telefono', '$recordar', '$fecha', '$params->fecha_cita', '$params->hora_cita', '$params->rut', '$params->nombres') RETURNING hora_cita;
+  VALUES ('$params->codigo_fila', '$params->email', '$params->telefono', '$recordar', '$fecha', '$params->fecha_cita', '$params->hora_cita', '$params->rut', '$params->nombres') RETURNING secuencial, hora_cita;
   ";
 
   $conexion = pg_connect("host=" . $rutaServidor . " port=" . $puerto . " dbname=" . $nombreBaseDeDatos . " user=" . $usuario . " password=" . $clave . "") or die('Error al conectar con la base de datos: ' . pg_last_error());

@@ -19,9 +19,9 @@ try {
   date_default_timezone_set($zonaHoraria);
   $fecha = date("Y-m-d H:i:s");
   if ($params->estado != null) {
-    $query = "SELECT * FROM ticket WHERE codigo_fila = '$params->codigo' AND DATE(fecha_sacado) = '" . $fecha . "' AND estado = '$params->estado' order by fecha_sacado  DESC LIMIT 1;";
+    $query = "SELECT * FROM ticket WHERE codigo_fila = '$params->codigo' AND DATE(fecha_sacado) = '" . $fecha . "' AND (estado = '$params->estado' OR estado = 'ATENDIDO') order by fecha_sacado  DESC LIMIT 1;";
   } else {
-    $query = "SELECT * FROM ticket WHERE codigo_fila = '$params->codigo' AND DATE(fecha_sacado) = '" . $fecha . "' AND estado is null order by fecha_sacado  DESC LIMIT 1;";
+    $query = "SELECT * FROM ticket WHERE codigo_fila = '$params->codigo' AND DATE(fecha_sacado) = '" . $fecha . "' order by fecha_sacado  DESC LIMIT 1;";
   }
   $sentencia = $base_de_datos->query($query);
   $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
