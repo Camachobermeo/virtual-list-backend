@@ -12,7 +12,7 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-  $query = "SELECT rut, razon_social, 'data:image/png;base64,' || encode(logo, 'base64') AS logo, tema, obligar_persona, obligar_correo, obligar_celular FROM empresa WHERE rut = '$params->empresa';";
+  $query = "SELECT rut, razon_social, 'data:image/png;base64,' || encode(logo, 'escape') AS logo, tema, obligar_persona, obligar_correo, obligar_celular FROM empresa WHERE rut = '$params->empresa';";
 
   $sentencia = $base_de_datos->query($query);
   $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
