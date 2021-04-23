@@ -15,15 +15,19 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-  $sentencia = $base_de_datos->prepare("INSERT INTO empresa(rut, razon_social) VALUES (?, ?);");
-  $resultado = $sentencia->execute([strtoupper($params->rut), strtoupper($params->razon_social)]);
+  $persona = $params->obligar_persona == false ? 'no' : 'yes';
+  $correo = $params->obligar_correo == false ? 'no' : 'yes';
+  $celular = $params->obligar_celular == false ? 'no' : 'yes';
+
+  $sentencia = $base_de_datos->prepare("UPDATE empresa SET (obligar_persona, obligar_correo, obligar_celular) = (?, ?, ?) WHERE rut = '$params->empresa'");
+  $resultado = $sentencia->execute([$persona, $correo, $celular]);
 
   $response = new Result();
 
   if ($resultado == true) {
-    $response->mensaje = 'Empresa guardado correctamente.';
+    $response->mensaje = 'Datos guardados correctamente.';
   } else {
-    $response->mensaje = 'Ocurrió un error al guardar la Empresa.';
+    $response->mensaje = 'Ocurrió un error al modificar la Empresa.';
   }
   $response->resultado = $resultado;
 

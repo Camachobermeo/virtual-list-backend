@@ -13,23 +13,21 @@ class Result
 }
 
 try {
-    $complemento_fechas = " DATE(fecha_sacado) = '" . $params->fecha_sacado . "' order by fecha_sacado";
     include_once "utiles/base_de_datos.php";
     include_once "utiles/constantes.php";
     date_default_timezone_set($zonaHoraria);
-    $query = "SELECT " . $params->tabla . ".* FROM " . $params->tabla . " 
-    inner join fila fila on fila.codigo = codigo_fila 
-    inner join sucursal su on su.codigo = fila.codigo_sucursal 
-    where su.codigo = '" . $params->sucursal . "' and ";
-    if ($params->tabla == 'ticket_programado') {
-        $complemento_fechas = " DATE(fecha_cita) = '" . $params->fecha_sacado . "' order by hora_cita";
-    }
-    $query = $query . $complemento_fechas;
+    $fecha = date("Y-m-d");
+    $query = "SELECT ticket.* FROM ticket 
+    where estado = 'EN ATENCION'
+    and DATE(fecha_sacado) = '" . $fecha . "'";
+    $query = $query . " order by fecha_sacado limit 4";
+
+    $response = new Result();
     $sentencia = $base_de_datos->query($query);
     $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
-    $response = new Result();
     $response->resultado = $resultado;
+    $response->programados = $resultado;
     $response->mensaje = 'Datos Listados Correctamente';
 
     header('Content-Type: application/json');
