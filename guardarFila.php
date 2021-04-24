@@ -17,13 +17,13 @@ try {
 
   if ($params->esEdicion) {
     $sentencia = $base_de_datos->prepare("UPDATE fila 
-                                          SET (codigo, codigo_sucursal, descripcion, tiempo_estimado_minutos, costo_estimado) = 
-                                          (upper('$params->codigo'), '$params->codigo_sucursal', upper('$params->descripcion'), $params->tiempo_estimado_minutos, $params->costo_estimado) WHERE codigo = '$params->codigo'");
-$resultado = $sentencia->execute();  
-}  else {
-  $sentencia = $base_de_datos->prepare("INSERT INTO fila(codigo, codigo_sucursal, descripcion, tiempo_estimado_minutos, costo_estimado) VALUES (?, ?, ?, ?, ?);");
-  $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->codigo_sucursal), strtoupper($params->descripcion), $params->tiempo_estimado_minutos, $params->costo_estimado]);
-}
+                                          SET (codigo, codigo_sucursal, descripcion, tiempo_estimado_minutos, costo_estimado, cantidad_ventanillas) = 
+                                          (upper('$params->codigo'), '$params->codigo_sucursal', upper('$params->descripcion'), $params->tiempo_estimado_minutos, $params->costo_estimado, $params->cantidad_ventanillas) WHERE codigo = '$params->codigo'");
+    $resultado = $sentencia->execute();
+  } else {
+    $sentencia = $base_de_datos->prepare("INSERT INTO fila(codigo, codigo_sucursal, descripcion, tiempo_estimado_minutos, costo_estimado, cantidad_ventanillas) VALUES (?, ?, ?, ?, ?, ?);");
+    $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->codigo_sucursal), strtoupper($params->descripcion), $params->tiempo_estimado_minutos, $params->costo_estimado, $params->cantidad_ventanillas]);
+  }
 
 
 
