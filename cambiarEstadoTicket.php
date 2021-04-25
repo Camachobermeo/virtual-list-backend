@@ -13,11 +13,19 @@ try {
 
   include_once "utiles/base_de_datos.php";
   if ($params->estado) {
-    $sentencia = $base_de_datos->prepare("UPDATE  ticket
-    SET (estado, usuario) = (?, ?) WHERE secuencial = '$params->secuencial'");
 
+    date_default_timezone_set($zonaHoraria);
+    $fecha = date("Y-m-d H:i:s");
+    if ($params->estado == 'EN ATENCION') {
+      $sentencia = $base_de_datos->prepare("UPDATE  ticket
+      SET (estado, usuario, inicio_atencion) = (?, ?, ?) WHERE secuencial = '$params->secuencial'");
+    }
+    if ($params->estado == 'ATENDIDO') {
+      $sentencia = $base_de_datos->prepare("UPDATE  ticket
+      SET (estado, usuario, fin_atencion) = (?, ?, ?) WHERE secuencial = '$params->secuencial'");
+    }
     $resultado = $sentencia->execute([
-      strtoupper($params->estado), strtoupper($params->usuario)
+      strtoupper($params->estado), strtoupper($params->usuario), $fecha
     ]);
   } else {
     $sentencia = $base_de_datos->prepare("UPDATE  ticket

@@ -31,7 +31,7 @@ try {
   $recordar = $params->recordatorio == false ? 'no' : 'yes';
   $query =
     "INSERT INTO ticket_programado(codigo_fila, email, telefono, recordatorio, fecha_sacado, fecha_cita, hora_cita, rut, nombres)
-  VALUES ('$params->codigo_fila', '$params->email', '$params->telefono', '$recordar', '$fecha', '$params->fecha_cita', '$params->hora_cita', '$params->rut', '$params->nombres') RETURNING secuencial, hora_cita;
+  VALUES ('$params->codigo_fila', '$params->email', '$params->telefono', '$recordar', '$fecha', '$params->fecha_cita', '$params->hora_cita', '$params->rut', '$params->nombres') RETURNING secuencial, hora_cita, numeracion;
   ";
 
   $conexion = pg_connect("host=" . $rutaServidor . " port=" . $puerto . " dbname=" . $nombreBaseDeDatos . " user=" . $usuario . " password=" . $clave . "") or die('Error al conectar con la base de datos: ' . pg_last_error());
@@ -46,7 +46,7 @@ try {
     // if (!file_exists($PNG_TEMP_DIR))
     //   mkdir($PNG_TEMP_DIR);
 
-    $textoCodigo = $params->codigo_fila . "-" . $params->fecha_cita . "-" . $params->hora_cita;
+    $textoCodigo = $params->codigo_fila . "-" . $resultado->numeracion;
     $textoQR = $textoCodigo . " --> " . $fecha;
 
     // $filename = $PNG_TEMP_DIR . 'test.png';
@@ -107,7 +107,7 @@ try {
                       </div>
                       <div
                         style="padding: 0 2% 0 2%; width: 66.666667%; max-width: 66.666667%; font-weight: bold; background-color: #ffff;">
-                        <div>' . $params->codigo_fila . "-" . $params->hora_cita . '</div>
+                        <div> R-' . $params->codigo_fila . "-" . $params->numeracion . '</div>
                       </div>
                     </div>
                     <div style="padding: 0 3% 0 3%; display: flex;">
@@ -175,7 +175,7 @@ try {
     $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
     $cabeceras .= 'Content-type:  text/html; charset=iso-8859-1' . "\r\n";
 
-    // $enviado = mail($params->email, $subject, $message, $cabeceras);
+    $enviado = mail($params->email, $subject, $message, $cabeceras);
     //Server settings
     $mail->SMTPDebug = 0;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
@@ -194,7 +194,7 @@ try {
     $mail->Body    = $message;
     $mail->AltBody = $message;
 
-    $mail->send();
+    // $mail->send();
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }
