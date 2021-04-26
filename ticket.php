@@ -175,7 +175,7 @@ try {
     $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
     $cabeceras .= 'Content-type:  text/html; charset=iso-8859-1' . "\r\n";
 
-    $enviado = mail($params->email, $subject, $message, $cabeceras);
+    // $enviado = mail($params->email, $subject, $message, $cabeceras);
     //Server settings
     $mail->SMTPDebug = 0;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
@@ -195,7 +195,7 @@ try {
     $mail->Body    = $message;
     $mail->AltBody = $message;
 
-    // $mail->send();
+    $mail->send();
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }

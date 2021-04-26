@@ -15,17 +15,32 @@ try {
 
   include_once "utiles/base_de_datos.php";
 
-if($params->esEdicion){
-  $sentencia = $base_de_datos->prepare("UPDATE  totem
+  $filas = $params->filas;
+
+  if ($params->esEdicion) {
+    $sentencia = $base_de_datos->prepare("UPDATE  totem
                                         SET (codigo, codigo_sucursal, ubicacion) =
                                         ('$params->codigo', upper('$params->codigo_sucursal'), upper('$params->ubicacion')) WHERE codigo = '$params->codigo'");
-  $resultado = $sentencia->execute();  
-}  else{
+    $resultado = $sentencia->execute();
+  } else {
     $sentencia = $base_de_datos->prepare("INSERT INTO totem(codigo, codigo_sucursal, ubicacion) VALUES (?, ?, ?);");
     $resultado = $sentencia->execute([strtoupper($params->codigo), strtoupper($params->codigo_sucursal), strtoupper($params->ubicacion)]);
-    
-}
-  
+  }
+
+  $query = "DELETE FROM totem_fila WHERE codigo_totem = '$params->codigo';";
+  $s = $base_de_datos->query($query);
+  $r = $s->execute();
+
+  $longitud = sizeof($filas);
+  for ($i = 0; $i < $longitud; $i++) {
+    // $query =
+    //   "INSERT INTO totem_fila(codigo_fila, codigo_totem, estado)
+    //  VALUES ('$params->codigo_fila', '$params->codigo_totem', 'yes') RETURNING numeracion, fecha_sacado;
+    //  ";
+    // $sen = $base_de_datos->query($query);
+    // $res = $s->fetchAll(PDO::FETCH_OBJ);
+  }
+
 
   $response = new Result();
 
