@@ -16,12 +16,21 @@ try {
   $sentencia = $base_de_datos->query($query);
   $resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 
+  $queryfilas = "SELECT * FROM totem_fila WHERE codigo_totem = '$params->codigo';";
+  $sentenciafilas = $base_de_datos->query($queryfilas);
+
+  $filas = [];
+  if ($resultado && $resultado[0]) {
+    $filas = $sentenciafilas->fetchAll(PDO::FETCH_OBJ);
+  }
+
   class Result
   {
   }
 
   $response = new Result();
   $response->resultado = $resultado[0];
+  $response->filas = $resultado[0];
   $response->mensaje = 'Datos Listados Correctamente';
 
   header('Content-Type: application/json');

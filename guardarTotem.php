@@ -31,16 +31,10 @@ try {
   $s = $base_de_datos->query($query);
   $r = $s->execute();
 
-  $longitud = sizeof($filas);
-  for ($i = 0; $i < $longitud; $i++) {
-    // $query =
-    //   "INSERT INTO totem_fila(codigo_fila, codigo_totem, estado)
-    //  VALUES ('$params->codigo_fila', '$params->codigo_totem', 'yes') RETURNING numeracion, fecha_sacado;
-    //  ";
-    // $sen = $base_de_datos->query($query);
-    // $res = $s->fetchAll(PDO::FETCH_OBJ);
+  foreach ($filas as $fila) {
+    $sen = $base_de_datos->prepare("INSERT INTO totem_fila(codigo_fila, codigo_totem, estado) VALUES (?, ?, ?);");
+    $res = $sen->execute([strtoupper($fila->codigo_fila), strtoupper($fila->codigo_totem), true]);
   }
-
 
   $response = new Result();
 
