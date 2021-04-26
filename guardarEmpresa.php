@@ -21,7 +21,7 @@ try {
   $rut = $params->obligar_rut == false ? 'no' : 'yes';
   $nombre = $params->obligar_nombre == false ? 'no' : 'yes';
 
-  $sentencia = $base_de_datos->prepare("UPDATE empresa SET (obligar_persona, obligar_correo, obligar_celular, obligar_rut, obligar_nombre, logo, cabecera, menu) = (?, ?, ?, ?, ?, ?) WHERE rut = '$params->empresa'");
+  $sentencia = $base_de_datos->prepare("UPDATE empresa SET (obligar_persona, obligar_correo, obligar_celular, obligar_rut, obligar_nombre, logo, cabecera, menu) = (?, ?, ?, ?, ?, ?, ?, ?) WHERE rut = '$params->empresa'");
   $resultado = $sentencia->execute([$persona, $correo, $celular, $rut, $nombre, $params->logo, $params->cabecera, $params->menu]);
 
   $response = new Result();
