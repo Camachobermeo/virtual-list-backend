@@ -12,6 +12,7 @@ class Result
 try {
 
   include_once "utiles/base_de_datos.php";
+  include_once "utiles/constantes.php";
   if ($params->estado) {
 
     date_default_timezone_set($zonaHoraria);
