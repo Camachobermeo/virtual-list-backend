@@ -5,10 +5,12 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 use PHPMailer\PHPMailer\PHPMailer;  //estas son las funciones
 use PHPMailer\PHPMailer\Exception;
+use Twilio\Rest\Client;
 
 require 'PHPMailer/Exception.php';   //aqui las librerias
 require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
+require_once "Twilio/autoload.php";
 
 $json = file_get_contents('php://input');
 $params = json_decode($json);
@@ -196,6 +198,21 @@ try {
     $mail->AltBody = $message;
 
     $mail->send();
+
+    if ($params->telefono) {
+      $sid    = "ACd5fd798146b16bf7028271231f434c65";
+      $token  = "4df4bed001951ceadbce72d7ea8348cb";
+      $twilio = new Client($sid, $token);
+
+      $message = $twilio->messages
+        ->create(
+          "whatsapp:+51914364150", // to 
+          array(
+            "from" => "whatsapp:+14155238886",
+            "body" => "Hola Mario"
+          )
+        );
+    }
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }

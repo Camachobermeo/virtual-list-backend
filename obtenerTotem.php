@@ -30,7 +30,7 @@ try {
 
   $response = new Result();
   $response->resultado = $resultado[0];
-  $response->filas = $resultado[0];
+  $response->filas = $filas;
   $response->mensaje = 'Datos Listados Correctamente';
 
   header('Content-Type: application/json');
