@@ -202,16 +202,16 @@ try {
     if ($params->telefono) {
       $sid    = "ACd5fd798146b16bf7028271231f434c65";
       $token  = "4df4bed001951ceadbce72d7ea8348cb";
-      $twilio = new Client($sid, $token);
+      // $twilio = new Client($sid, $token);
 
-      $message = $twilio->messages
-        ->create(
-          "whatsapp:+51914364150", // to 
-          array(
-            "from" => "whatsapp:+14155238886",
-            "body" => "Hola Mario"
-          )
-        );
+      // $message = $twilio->messages
+      //   ->create(
+      //     "whatsapp:+51914364150", // to 
+      //     array(
+      //       "from" => "whatsapp:+14155238886",
+      //       "body" => "Hola Mario"
+      //     )
+      //   );
     }
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
