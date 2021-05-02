@@ -18,7 +18,7 @@ try {
     $hora = date("H:i:s");
     $horaMas = strtotime('+10 minute', strtotime($hora));
     $horaMas = date('H:i:s', $horaMas);
-    $horaMenos = strtotime('-10 minute', strtotime($hora));
+    $horaMenos = strtotime('0 minute', strtotime($hora));
     $horaMenos = date('H:i:s', $horaMenos);
     //TICKET PROGRAMADO
     $query = "SELECT ticket_programado.* FROM ticket_programado 

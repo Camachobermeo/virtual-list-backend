@@ -178,7 +178,7 @@ try {
     $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
     $cabeceras .= 'Content-type:  text/html; charset=iso-8859-1' . "\r\n";
 
-    // $enviado = mail($params->email, $subject, $message, $cabeceras);
+    $enviado = mail($params->email, $subject, $message, $cabeceras);
     //Server settings
     $mail->SMTPDebug = 0;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
@@ -198,16 +198,16 @@ try {
     $mail->Body    = $message;
     $mail->AltBody = $message;
 
-    $mail->send();
+    // $mail->send();
     try {
       if ($params->telefono) {
         $twilio = new Client($sid, $token);
 
         $message = $twilio->messages
           ->create(
-            "SMS:$params->telefono", // to 
+            "whatsapp:$params->telefono", // to 
             array(
-              "from" => "SMS:+1 602 641 3017",
+              "from" => "whatsapp:+593999344297",
               "body" => "Hola Mario"
             )
           );
