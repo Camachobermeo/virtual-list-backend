@@ -29,6 +29,7 @@ try {
   include_once "utiles/phpqrcode.php";
   // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
   include_once "utiles/constantes.php";
+  include_once "utiles/credenciales.php";
   date_default_timezone_set($zonaHoraria);
   $fecha = date("Y-m-d H:i:s");
   $recordar = $params->recordatorio == false ? 'no' : 'yes';
@@ -200,8 +201,6 @@ try {
     $mail->send();
     try {
       if ($params->telefono) {
-        $sid    = "AC39204a4c2d7df8e5fc57493bf830f70f";
-        $token  = "15ea7867d3a94e4e9eef29e20788cfaf";
         $twilio = new Client($sid, $token);
 
         $message = $twilio->messages
