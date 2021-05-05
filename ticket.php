@@ -203,12 +203,21 @@ try {
       if ($params->telefono) {
         $twilio = new Client($sid, $token);
 
+        // $message = $twilio->messages
+        //   ->create(
+        //     "whatsapp:$params->telefono", // to 
+        //     array(
+        //       "from" => "whatsapp:+14155238886",
+        //       "body" => $subject
+        //     )
+        //   );
+
         $message = $twilio->messages
           ->create(
-            "whatsapp:$params->telefono", // to 
+            $params->telefono, // to 
             array(
-              "from" => "whatsapp:+593999344297",
-              "body" => "Hola Mario"
+              "messagingServiceSid" => "MG0610d38b1751e630c70bcca7064dee10",
+              "body" => $subject
             )
           );
       }
