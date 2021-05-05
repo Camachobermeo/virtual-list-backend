@@ -63,6 +63,17 @@ try {
     //   $imagen = 'data:image/png;base64,' . base64_encode($imgbinary);
     // }
 
+    if ($recordar) {
+      $contenido = "Usted ha reservado el Ticket N° $textoCodigo en la fila $params->fila.";
+      $numeracionn = $resultado->numeracion; 
+      $query =
+        "INSERT INTO recordatorio(tipo_envio, contenido, codigo_fila, numeracion, direccion_envio, fecha_hora_envio)
+                          VALUES ('SMS', '$contenido', '$textoCodigo', $numeracionn, '$params->telefono', '$fecha'); ";
+
+      $conexion = pg_connect("host=" . $rutaServidor . " port=" . $puerto . " dbname=" . $nombreBaseDeDatos . " user=" . $usuario . " password=" . $clave . "") or die('Error al conectar con la base de datos: ' . pg_last_error());
+      $resource = pg_Exec($conexion, $query);
+    }
+
     $subject = "Ticket Generado " . $textoCodigo;
     $message = '<html lang="es" style="font-family: sans-serif; font-size: 12px; font-weight: bold;">
     <head>
