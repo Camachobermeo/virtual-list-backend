@@ -63,12 +63,17 @@ try {
     //   $imagen = 'data:image/png;base64,' . base64_encode($imgbinary);
     // }
 
-    if ($recordar) {
-      $contenido = "Usted ha reservado el Ticket N° $textoCodigo en la fila $params->fila.";
-      $numeracionn = $resultado->numeracion; 
+    if ($recordar == 'yes') {
+      $fecha_recordatorio = $fecha;
+      if ($params->minutos > 0) {
+        $horaMas = strtotime('+' . $params->minutos . 'minute', strtotime($fecha_recordatorio));
+        $fecha_recordatorio = date('Y-m-d H:i:s', $horaMas);
+      }
+      $contenido = "Ha reservado el Ticket $textoCodigo en la fila $params->fila, revise el avance en: $params->url.";
+      $numeracionn = $resultado->numeracion;
       $query =
         "INSERT INTO recordatorio(tipo_envio, contenido, codigo_fila, numeracion, direccion_envio, fecha_hora_envio)
-                          VALUES ('SMS', '$contenido', '$textoCodigo', $numeracionn, '$params->telefono', '$fecha'); ";
+                          VALUES ('SMS', '$contenido', '$params->codigo_fila', $numeracionn, '$params->telefono', '$fecha_recordatorio'); ";
 
       $conexion = pg_connect("host=" . $rutaServidor . " port=" . $puerto . " dbname=" . $nombreBaseDeDatos . " user=" . $usuario . " password=" . $clave . "") or die('Error al conectar con la base de datos: ' . pg_last_error());
       $resource = pg_Exec($conexion, $query);
@@ -189,7 +194,7 @@ try {
     $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
     $cabeceras .= 'Content-type:  text/html; charset=iso-8859-1' . "\r\n";
 
-    $enviado = mail($params->email, $subject, $message, $cabeceras);
+    // $enviado = mail($params->email, $subject, $message, $cabeceras);
     //Server settings
     $mail->SMTPDebug = 0;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
@@ -209,20 +214,10 @@ try {
     $mail->Body    = $message;
     $mail->AltBody = $message;
 
-    // $mail->send();
+    $mail->send();
     try {
       if ($params->telefono) {
         $twilio = new Client($sid, $token);
-
-        // $message = $twilio->messages
-        //   ->create(
-        //     "whatsapp:$params->telefono", // to 
-        //     array(
-        //       "from" => "whatsapp:+14155238886",
-        //       "body" => $subject
-        //     )
-        //   );
-
         $message = $twilio->messages
           ->create(
             $params->telefono, // to 

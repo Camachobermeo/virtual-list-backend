@@ -2,8 +2,6 @@
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
-
-
 $json = file_get_contents('php://input');
 $params = json_decode($json);
 
@@ -12,9 +10,7 @@ class Result
 }
 
 try {
-
   include_once "utiles/base_de_datos.php";
-
   $filas = $params->filas;
 
   if ($params->esEdicion) {
@@ -30,12 +26,10 @@ try {
   $query = "DELETE FROM totem_fila WHERE codigo_totem = '$params->codigo';";
   $s = $base_de_datos->query($query);
   $r = $s->execute();
-
   foreach ($filas as $fila) {
     $sen = $base_de_datos->prepare("INSERT INTO totem_fila(codigo_fila, codigo_totem, estado) VALUES (?, ?, ?);");
     $res = $sen->execute([strtoupper($fila->codigo_fila), strtoupper($fila->codigo_totem), true]);
   }
-
   $response = new Result();
 
   if ($resultado == true) {
@@ -44,7 +38,6 @@ try {
     $response->mensaje = 'Ocurrió un error al guardar el Totem.';
   }
   $response->resultado = $resultado;
-
 
   header('Content-Type: application/json');
   echo json_encode($response);

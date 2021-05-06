@@ -3,12 +3,14 @@
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
+use Twilio\Rest\Client;
 use PHPMailer\PHPMailer\PHPMailer;  //estas son las funciones
 use PHPMailer\PHPMailer\Exception;
 
 require 'PHPMailer/Exception.php';   //aqui las librerias
 require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
+require_once "Twilio/autoload.php";
 
 $json = file_get_contents('php://input');
 $params = json_decode($json);
@@ -26,6 +28,7 @@ try {
   include_once "utiles/phpqrcode.php";
   // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
   include_once "utiles/constantes.php";
+  include_once "utiles/credenciales.php";
   date_default_timezone_set($zonaHoraria);
   $fecha = date("Y-m-d H:i:s");
   $recordar = $params->recordatorio == false ? 'no' : 'yes';
@@ -58,6 +61,22 @@ try {
     //   $imgbinary = fread(fopen($filename, "r"), filesize($filename));
     //   $imagen = 'data:image/png;base64,' . base64_encode($imgbinary);
     // }
+
+    if ($recordar == 'yes') {
+      $fecha_recordatorio = $params->fecha_cita . ' ' . $params->hora_cita;
+      if ($params->minutos > 0) {
+        $horaMas = strtotime('+' . $params->minutos . 'minute', strtotime($fecha_recordatorio));
+        $fecha_recordatorio = date('Y-m-d H:i:s', $horaMas);
+      }
+      $contenido = "Ha reservado el Ticket $textoCodigo en la fila $params->fila, revise el avance en: $params->url.";
+      $numeracionn = $resultado->numeracion;
+      $query =
+        "INSERT INTO recordatorio(tipo_envio, contenido, codigo_fila, numeracion, direccion_envio, fecha_hora_envio)
+                          VALUES ('SMS', '$contenido', '$params->codigo_fila', $numeracionn, '$params->telefono', '$fecha_recordatorio'); ";
+
+      $conexion = pg_connect("host=" . $rutaServidor . " port=" . $puerto . " dbname=" . $nombreBaseDeDatos . " user=" . $usuario . " password=" . $clave . "") or die('Error al conectar con la base de datos: ' . pg_last_error());
+      $resource = pg_Exec($conexion, $query);
+    }
 
     $subject = "Ticket Generado " . $textoCodigo;
     $message = '<html lang="es" style="font-family: sans-serif; font-size: 12px; font-weight: bold;">
@@ -195,6 +214,29 @@ try {
     $mail->AltBody = $message;
 
     $mail->send();
+    try {
+      if ($params->telefono) {
+        $twilio = new Client($sid, $token);
+        // $message = $twilio->messages
+        //   ->create(
+        //     "whatsapp:$params->telefono", // to 
+        //     array(
+        //       "from" => "whatsapp:+14155238886",
+        //       "body" => $subject
+        //     )
+        //   );
+        $message = $twilio->messages
+          ->create(
+            $params->telefono, // to 
+            array(
+              "messagingServiceSid" => "MG0610d38b1751e630c70bcca7064dee10",
+              "body" => $subject
+            )
+          );
+      }
+    } catch (\Throwable $th) {
+      $response->errorCelular = $th->getMessage();
+    }
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }
