@@ -200,13 +200,13 @@ try {
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'kottoland@gmail.com';                     //SMTP username
-    $mail->Password   = 'Megustaelvin0';                               //SMTP password
+    $mail->Username   = 'bryanjoelcamacho2001@gmail.com';                     //SMTP username
+    $mail->Password   = 'Geektic2022';                               //SMTP password
     $mail->SMTPSecure = 'tls';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
     $mail->Port       =  587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
     //Recipients
-    $mail->setFrom('kottoland@gmail.com', 'Checkseguro');
+    $mail->setFrom('bryanjoelcamacho2001@gmail.com', 'Checkseguro');
     $mail->addAddress($params->email);     //destinatario...
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
@@ -215,21 +215,21 @@ try {
     $mail->AltBody = $message;
 
     $mail->send();
-    try {
-      if ($params->telefono) {
-        $twilio = new Client($sid, $token);
-        $message = $twilio->messages
-          ->create(
-            $params->telefono, // to 
-            array(
-              "messagingServiceSid" => "MG0610d38b1751e630c70bcca7064dee10",
-              "body" => $subject
-            )
-          );
-      }
-    } catch (\Throwable $th) {
-      $response->errorCelular = $th->getMessage();
-    }
+    // try {
+    //   if ($params->telefono) {
+    //     $twilio = new Client($sid, $token);
+    //     $message = $twilio->messages
+    //       ->create(
+    //         $params->telefono, // to 
+    //         array(
+    //           "messagingServiceSid" => "MG0610d38b1751e630c70bcca7064dee10",
+    //           "body" => $subject
+    //         )
+    //       );
+    //   }
+    // } catch (\Throwable $th) {
+    //   $response->errorCelular = $th->getMessage();
+    // }
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }
