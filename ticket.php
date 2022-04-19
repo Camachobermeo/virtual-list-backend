@@ -167,11 +167,11 @@ try {
         <br>
         <p>Gracias por preferirnos: <br></p>
         <p>Atentamente,</p><br>
-        <div><strong>Empresa SA</strong></div>
-        <div><strong>RUC: </strong>0991011897001</div>
-        <div><strong>Direcci&oacute;n: </strong>VELEZ 423 Y ESCOBEDO</div>
-        <div><strong>Tel&eacute;fono: </strong></div>
-        <div><strong>Email: </strong>notificaciones@documentos-electronicos.info</div>
+        <div><strong>Consultorio Odontológico Dr. Luis Rubio</strong></div>
+        <div><strong>RUC: </strong>0940811227001</div>
+        <div><strong>Direcci&oacute;n: </strong>Riobamba - Chimborazo - Ecuador</div>
+        <div><strong>Tel&eacute;fono: </strong>0980429165</div>
+        <div><strong>Email: </strong>luferupo_0609@hotmail.com</div>
         <br>
         <br>
       </div>
@@ -206,7 +206,7 @@ try {
     $mail->Port       =  587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
     //Recipients
-    $mail->setFrom('bryanjoelcamacho2001@gmail.com', 'Checkseguro');
+    $mail->setFrom('bryanjoelcamacho2001@gmail.com', 'Consultorio Odontológico Dr. Luis Rubio');
     $mail->addAddress($params->email);     //destinatario...
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
