@@ -22,7 +22,7 @@ try {
 
   $response = new Result();
   $response->resultado = $resultado;
-  $response->mensaje = 'Datos Listados Correctamente';
+  $response->mensaje = 'Datos Listados Correctamente..';
 
   header('Content-Type: application/json');
   echo json_encode($response);
