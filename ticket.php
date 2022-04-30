@@ -180,7 +180,7 @@ try {
         <br>
         <br><br>
         <div>QVirtual. Software electr&oacute;nico para la emisi&oacute;n de tickets, cont&aacute;ctenos al </div>
-        <div> (593)72966371 / (07)2924090 / 0939309203,</div>
+        <div> (51)72966371 / (593)968802318 / (593)962853503,</div>
         <div>estaremos gustosos en atender sus requerimientos.</div>
         <br><br>
       </div>
