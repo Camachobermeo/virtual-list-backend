@@ -166,11 +166,11 @@ try {
                   <br>
                   <p>Gracias por preferirnos: <br></p>
                   <p>Atentamente,</p><br>
-                  <div><strong>Empresa SA</strong></div>
-                  <div><strong>RUC: </strong>0991011897001</div>
-                  <div><strong>Direcci&oacute;n: </strong>VELEZ 423 Y ESCOBEDO</div>
-                  <div><strong>Tel&eacute;fono: </strong></div>
-                  <div><strong>Email: </strong>notificaciones@documentos-electronicos.info</div>
+                  <div><strong>Consultorio Odontológico Dr. Luis Rubio</strong></div>
+                  <div><strong>RUC: </strong>0940811227001</div>
+                  <div><strong>Direcci&oacute;n: </strong>Riobamba - Chimborazo - Ecuador</div>
+                  <div><strong>Tel&eacute;fono: </strong>0980429165</div>
+                  <div><strong>Email: </strong>luferupo_0609@hotmail.com</div>
                   <br>
                   <br>
                 </div>
@@ -179,7 +179,7 @@ try {
                   <br>
                   <br><br>
                   <div>QVirtual. Software electr&oacute;nico para la emisi&oacute;n de tickets, cont&aacute;ctenos al </div>
-                  <div> (593)72966371 / (07)2924090 / 0939309203,</div>
+                  <div> (51)72966371 / (593)968802318 / (593)962853503,</div>
                   <div>estaremos gustosos en atender sus requerimientos.</div>
                   <br><br>
                 </div>
@@ -200,12 +200,12 @@ try {
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'kottoland@gmail.com';                     //SMTP username
-    $mail->Password   = 'Megustaelvin0';                               //SMTP password
+    $mail->Username   = 'bryanjoelcamacho2001@gmail.com';                     //SMTP username
+    $mail->Password   = 'Geektic2022';                               //SMTP password
     $mail->SMTPSecure = 'tls';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
     $mail->Port       =  587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
     //Recipients
-    $mail->setFrom('kottoland@gmail.com', 'Checkseguro');
+    $mail->setFrom('bryanjoelcamacho2001@gmail.com', 'Consultorio Odontológico Dr. Luis Rubio');
     $mail->addAddress($params->email);     //destinatario...
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
@@ -214,29 +214,29 @@ try {
     $mail->AltBody = $message;
 
     $mail->send();
-    try {
-      if ($params->telefono) {
-        $twilio = new Client($sid, $token);
-        // $message = $twilio->messages
-        //   ->create(
-        //     "whatsapp:$params->telefono", // to 
-        //     array(
-        //       "from" => "whatsapp:+14155238886",
-        //       "body" => $subject
-        //     )
-        //   );
-        $message = $twilio->messages
-          ->create(
-            $params->telefono, // to 
-            array(
-              "messagingServiceSid" => "MG0610d38b1751e630c70bcca7064dee10",
-              "body" => $subject
-            )
-          );
-      }
-    } catch (\Throwable $th) {
-      $response->errorCelular = $th->getMessage();
-    }
+    // try {
+    //   if ($params->telefono) {
+    //     $twilio = new Client($sid, $token);
+    //     // $message = $twilio->messages
+    //     //   ->create(
+    //     //     "whatsapp:$params->telefono", // to 
+    //     //     array(
+    //     //       "from" => "whatsapp:+14155238886",
+    //     //       "body" => $subject
+    //     //     )
+    //     //   );
+    //     $message = $twilio->messages
+    //       ->create(
+    //         $params->telefono, // to 
+    //         array(
+    //           "messagingServiceSid" => "MG0610d38b1751e630c70bcca7064dee10",
+    //           "body" => $subject
+    //         )
+    //       );
+    //   }
+    // } catch (\Throwable $th) {
+    //   $response->errorCelular = $th->getMessage();
+    // }
   } else {
     $response->mensaje = 'Ocurrió un error al reservar un ticket.';
   }
