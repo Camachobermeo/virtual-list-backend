@@ -214,7 +214,7 @@ try {
     $mail->Body    = $message;
     $mail->AltBody = $message;
 
-    $mail->send();
+    //$mail->send();
     // try {
     //   if ($params->telefono) {
     //     $twilio = new Client($sid, $token);
