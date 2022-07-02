@@ -8,7 +8,7 @@ $puerto = "5432";
 // $usuario = "awubqqjaicjvpm";
 // $nombreBaseDeDatos = "d6u69047lqlu4b";
 // $rutaServidor = "ec2-34-239-33-57.compute-1.amazonaws.com";
-// $puerto = "5432";
+// $puerto = "5432";  
 try {
     $base_de_datos = new PDO("pgsql:host=$rutaServidor;port=$puerto;dbname=$nombreBaseDeDatos", $usuario, $clave);
     $base_de_datos->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
