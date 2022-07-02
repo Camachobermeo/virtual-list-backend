@@ -239,7 +239,7 @@ try {
   echo json_encode($response);
 } catch (Exception $th) {
   $response = new Result();
-  $response->mensaje =  $mail->ErrorInfo;
+  $response->mensaje =  $th->getMessage();
   header('Content-Type: application/json');
   echo json_encode($response);
 }
