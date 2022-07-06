@@ -12,7 +12,6 @@ class Result
 try {
   include_once "utiles/base_de_datos.php";
   include_once "utiles/constantes.php";
-  include_once "utiles/credenciales.php";
   date_default_timezone_set($zonaHoraria);
   $fecha = date("Y-m-d H:i:s");
   $recordar = 'no';
