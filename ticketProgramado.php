@@ -194,18 +194,18 @@ try {
     $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
     $cabeceras .= 'Content-type:  text/html; charset=iso-8859-1' . "\r\n";
 
-    // $enviado = mail($params->email, $subject, $message, $cabeceras);
+    $enviado = mail($params->email, $subject, $message, $cabeceras);
     //Server settings
     $mail->SMTPDebug = 0;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'bryanjoelcamacho2001@gmail.com';                     //SMTP username
-    $mail->Password   = 'Geektic2022';                               //SMTP password
+    $mail->Username   = 'joelbermeo452@gmail.com';                     //SMTP username
+    $mail->Password   = 'Geektic2021';                               //SMTP password
     $mail->SMTPSecure = 'tls';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
     $mail->Port       =  587;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
     //Recipients
-    $mail->setFrom('bryanjoelcamacho2001@gmail.com', 'Consultorio Odontológico Dr. Luis Rubio');
+    $mail->setFrom('joelbermeo452@gmail.com', 'Consultorio Odontológico Dr. Luis Rubio');
     $mail->addAddress($params->email);     //destinatario...
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
@@ -213,7 +213,7 @@ try {
     $mail->Body    = $message;
     $mail->AltBody = $message;
 
-    $mail->send();
+    // $mail->send();
     // try {
     //   if ($params->telefono) {
     //     $twilio = new Client($sid, $token);
@@ -246,7 +246,7 @@ try {
   echo json_encode($response);
 } catch (Exception $th) {
   $response = new Result();
-  $response->mensaje = $th->getMessage();
+  $response->mensaje = $mail->ErrorInfo;
 
   header('Content-Type: application/json');
   echo json_encode($response);
