@@ -14,10 +14,10 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 $json = file_get_contents('php://input');
 $params = json_decode($json);
-$PNG_TEMP_DIR = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR;
+// $PNG_TEMP_DIR = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR;
 
 //html PNG location prefix
-$PNG_WEB_DIR = 'temp/';
+// $PNG_WEB_DIR = 'temp/';
 // $mail = new PHPMailer(true);    //se crea el objeto
 
 class Result
