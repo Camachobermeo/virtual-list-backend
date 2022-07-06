@@ -15,7 +15,7 @@ try {
   include_once "utiles/credenciales.php";
   date_default_timezone_set($zonaHoraria);
   $fecha = date("Y-m-d H:i:s");
-  $recordar = $params->recordatorio == false ? 'no' : 'yes';
+  $recordar = 'no';
   $query =
     "INSERT INTO ticket(codigo_fila, email, telefono, recordatorio, fecha_sacado, rut, nombres, numeracion)
      VALUES ('$params->codigo_fila', '$params->email', '$params->telefono', '$recordar', '$fecha', '$params->rut', '$params->nombres', 0) RETURNING numeracion, fecha_sacado;
