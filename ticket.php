@@ -26,7 +26,7 @@ class Result
 
 try {
   include_once "utiles/base_de_datos.php";
-  include_once "utiles/phpqrcode.php";
+  // include_once "utiles/phpqrcode.php";
   // echo '<img src="' . $PNG_WEB_DIR . basename($filename) . '" />';
   include_once "utiles/constantes.php";
   include_once "utiles/credenciales.php";
